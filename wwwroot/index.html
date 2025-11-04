@@ -13,7 +13,6 @@
     <meta property="og:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/R1z2jDlWMEM0ZkJMwM7CqTElRhc2/social-images/social-1762253789389-YELHIGH LOHO.png">
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
     <meta name="twitter:image" content="https://storage.googleapis.com/gpt-engineer-file-uploads/R1z2jDlWMEM0ZkJMwM7CqTElRhc2/social-images/social-1762253789389-YELHIGH LOHO.png">
     <meta property="og:title" content="Music Producer &amp; Full-Stack Developer">
   <meta name="twitter:title" content="Music Producer &amp; Full-Stack Developer">
@@ -103,32 +102,6 @@
 </linearGradient>
 </defs>
 </svg>
-
-
-	<button id="lovable-badge-close" style="position: absolute; top: -2px; right: 5px; cursor: pointer; font-size: 14px; color: #A1A1AA;">&times;</button>
 </a>
-<script>
-	// Don't show the lovable-badge if the page is in an iframe or if it's being rendered by puppeteer (screenshot service)
-	if (window.self !== window.top || navigator.userAgent.includes('puppeteer')) {
-		// the page is in an iframe
-		var badge = document.getElementById('lovable-badge');
-		if (badge) {
-			badge.style.display = 'none';
-		}
-	}
-
-	// Add click event listener to close button
-	var closeButton = document.getElementById('lovable-badge-close');
-	if (closeButton) {
-		closeButton.addEventListener('click', function(event) {
-			event.preventDefault();
-			event.stopPropagation();
-			var badge = document.getElementById('lovable-badge');
-			if (badge) {
-				badge.style.display = 'none';
-			}
-		});
-	}
-</script>
 </body>
 </html>
