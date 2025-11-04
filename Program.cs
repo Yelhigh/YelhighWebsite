@@ -6,6 +6,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Application services
+builder.Services.AddSingleton<YelhighWebsite.Services.INavigationService, YelhighWebsite.Services.NavigationService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -23,5 +26,12 @@ app.UseAntiforgery();
 
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
+
+// Navigation endpoint (returns URL based on key)
+app.MapGet("/navigate/{key}", (string key, YelhighWebsite.Services.INavigationService navigationService) =>
+{
+    var url = navigationService.GetTargetUrl(key);
+    return Results.Json(new { url });
+});
 
 app.Run();
