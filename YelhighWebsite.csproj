@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <None Include="wwwroot\css\index.css" />
-    <None Include="wwwroot\images\1762253820423-YELHIGH LOHO2.png" />
+    <None Include="wwwroot\images\logo.png" />
     <None Include="wwwroot\index.html" />
     <None Include="wwwroot\js\flock.js" />
     <None Include="wwwroot\js\index.js" />
