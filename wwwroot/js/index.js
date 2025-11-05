@@ -15010,6 +15010,7 @@ const aE = () => {
                         style: {
                             color: "hsl(var(--music-text))"
                         },
+                        "data-l10n-key": "ListenToMe",
                         children: "← Listen to me!"
                     })]
                 }), n === "music" && C.jsxs("div", {
@@ -15042,12 +15043,14 @@ const aE = () => {
                         style: {
                             color: "hsl(var(--music-text))"
                         },
+                        "data-l10n-key": "MusicProducerSoundDesigner",
                         children: "Music Producer & Sound Designer"
                     }), C.jsx("p", {
                         className: "mb-12 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed",
                         style: {
                             color: "hsl(var(--music-text))"
                         },
+                        "data-l10n-key": "MusicProducerDescription",
                         children: "Creating sonic landscapes and crafting beats that move souls. From electronic waves to orchestral arrangements, I bring your audio vision to life. Specializing in EDM, Hip-Hop, and Cinematic Soundtracks."
                     }), C.jsxs("div", {
                         className: "flex gap-6 justify-center flex-wrap",
@@ -15114,6 +15117,7 @@ const aE = () => {
                         style: {
                             color: "hsl(var(--code-text))"
                         },
+                        "data-l10n-key": "CheckIfItWorks",
                         children: "← Check if it works for me :)"
                     })]
                 }), n === "code" && C.jsxs("div", {
@@ -15146,12 +15150,14 @@ const aE = () => {
                         style: {
                             color: "hsl(var(--code-text))"
                         },
+                        "data-l10n-key": "CSharpSoftwareEngineer",
                         children: "C# Software Engineer"
                     }), C.jsx("p", {
                         className: "mb-12 text-lg md:text-xl max-w-3xl mx-auto leading-relaxed",
                         style: {
                             color: "hsl(var(--code-text))"
                         },
+                        "data-l10n-key": "CSharpSoftwareEngineerDescription",
                         children: "Building robust, scalable applications with C# and .NET ecosystem. Expertise in ASP.NET Core, Entity Framework, and modern cloud architectures. Creating elegant solutions from backend APIs to responsive frontends."
                     }), C.jsxs("div", {
                         className: "flex gap-6 justify-center flex-wrap",
@@ -15233,10 +15239,12 @@ const aE = () => {
                     children: "404"
                 }), C.jsx("p", {
                     className: "mb-4 text-xl text-gray-600",
+                    "data-l10n-key": "OopsPageNotFound",
                     children: "Oops! Page not found"
                 }), C.jsx("a", {
                     href: "/",
                     className: "text-blue-500 underline hover:text-blue-700",
+                    "data-l10n-key": "ReturnToHome",
                     children: "Return to Home"
                 })]
             })
@@ -15299,12 +15307,37 @@ window._applyLocalizationTexts = window._applyLocalizationTexts || function (tex
             const key = el.getAttribute('data-l10n-key');
             const newText = texts[key];
             if (!newText) return;
-            // Replace only the text node to preserve icons
-            const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
-            if (textNode) {
-                textNode.nodeValue = ` ${newText}`; // keep a leading space after icon
+            
+            // Check if element has text directly as children (React elements)
+            const textNodes = Array.from(el.childNodes).filter(n => n.nodeType === Node.TEXT_NODE);
+            if (textNodes.length > 0) {
+                // Replace first text node, remove others
+                textNodes[0].nodeValue = newText;
+                textNodes.slice(1).forEach(n => n.remove());
+                // Remove non-text nodes that might be just whitespace
+                Array.from(el.childNodes).forEach(n => {
+                    if (n.nodeType === Node.TEXT_NODE && n.nodeValue.trim() === '') {
+                        n.remove();
+                    }
+                });
             } else {
-                el.appendChild(document.createTextNode(` ${newText}`));
+                // If no text nodes, check if children are React text elements
+                // For elements where text is directly as children property, replace innerHTML
+                const hasOnlyTextChildren = Array.from(el.childNodes).every(n => 
+                    n.nodeType === Node.TEXT_NODE || (n.nodeType === Node.ELEMENT_NODE && n.tagName === 'BR')
+                );
+                if (hasOnlyTextChildren) {
+                    el.textContent = newText;
+                } else {
+                    // Try to preserve structure by replacing only text nodes
+                    const firstTextNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+                    if (firstTextNode) {
+                        firstTextNode.nodeValue = newText;
+                    } else {
+                        // As last resort, prepend text
+                        el.insertBefore(document.createTextNode(newText), el.firstChild);
+                    }
+                }
             }
         });
     } catch (_) { }
