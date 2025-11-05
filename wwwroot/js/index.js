@@ -14969,8 +14969,12 @@ var df;
 })(df || (df = {}));
 const aE = () => {
     const [e, t] = x.useState(null), [n, r] = x.useState(null);
+    const s = x.useRef(!0);
     return C.jsxs("div", {
         className: "relative h-screen w-full overflow-hidden",
+        onMouseMove: () => {
+            s.current = !0
+        },
         children: [C.jsx("div", {
             className: `absolute inset-0 transition-all duration-700 cursor-pointer ${n === "code" ? "opacity-0 pointer-events-none scale-50" : n === "music" ? "opacity-100 scale-100 z-20" : e === "code" ? "opacity-40 scale-95" : "opacity-100 scale-100"}`,
             style: {
@@ -14978,14 +14982,14 @@ const aE = () => {
                 clipPath: n === "music" ? "none" : "polygon(0 0, 100% 0, 0 100%)"
             },
             onClick: () => !n && r("music"),
-            onMouseEnter: () => !n && t("music"),
+            onMouseEnter: () => !n && s.current && t("music"),
             onMouseLeave: () => !n && t(null),
             children: C.jsxs("div", {
                 className: "flex h-full items-center justify-center p-8 md:p-16",
                 children: [!n && C.jsxs("div", {
                     className: "max-w-2xl text-left animate-fade-in",
                     style: {
-                        marginRight: "25%",
+                        marginRight: "45%",
                         marginTop: "-10%"
                     },
                     children: [C.jsx(Fl, {
@@ -15017,7 +15021,7 @@ const aE = () => {
                     className: "max-w-4xl mx-auto text-center animate-fade-in",
                     children: [C.jsx("button", {
                         onClick: o => {
-                            o.stopPropagation(), r(null)
+                            o.stopPropagation(), r(null), t(null), s.current = !1
                         },
                         className: "absolute top-8 right-8 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-90",
                         style: {
@@ -15091,14 +15095,14 @@ const aE = () => {
                 clipPath: n === "code" ? "none" : "polygon(100% 0, 100% 100%, 0 100%)"
             },
             onClick: () => !n && r("code"),
-            onMouseEnter: () => !n && t("code"),
+            onMouseEnter: () => !n && s.current && t("code"),
             onMouseLeave: () => !n && t(null),
             children: C.jsxs("div", {
                 className: "flex h-full items-center justify-center p-8 md:p-16",
                 children: [!n && C.jsxs("div", {
                     className: "max-w-2xl text-right animate-fade-in",
                     style: {
-                        marginLeft: "25%",
+                        marginLeft: "45%",
                         marginBottom: "-10%"
                     },
                     children: [C.jsx(Dl, {
@@ -15124,7 +15128,7 @@ const aE = () => {
                     className: "max-w-4xl mx-auto text-center animate-fade-in",
                     children: [C.jsx("button", {
                         onClick: o => {
-                            o.stopPropagation(), r(null)
+                            o.stopPropagation(), r(null), t(null), s.current = !1
                         },
                         className: "absolute top-8 right-8 p-3 rounded-full transition-all duration-300 hover:scale-110 hover:rotate-90",
                         style: {
