@@ -1,7 +1,26 @@
 ﻿@page "/"
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Music Producer &amp; C# Developer</PageTitle>
 
-<h1>Hello, world!</h1>
+<div id="root"></div>
 
-Welcome to your new app.
+<script>
+    if (window.self !== window.top || navigator.userAgent.includes('puppeteer')) {
+        var badge = document.getElementById('lovable-badge');
+        if (badge) {
+            badge.style.display = 'none';
+        }
+    }
+
+    var closeButton = document.getElementById('lovable-badge-close');
+    if (closeButton) {
+        closeButton.addEventListener('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+            var badge = document.getElementById('lovable-badge');
+            if (badge) {
+                badge.style.display = 'none';
+            }
+        });
+    }
+</script>
