@@ -7,6 +7,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Configure localization options
+builder.Services.Configure<YelhighWebsite.Services.LocalizationOptions>(
+    builder.Configuration.GetSection("Localization"));
+
 // Application services
 builder.Services.AddSingleton<YelhighWebsite.Services.INavigationService, YelhighWebsite.Services.NavigationService>();
 builder.Services.AddSingleton<YelhighWebsite.Services.ILocalizationService, YelhighWebsite.Services.LocalizationService>();
@@ -39,8 +43,7 @@ app.MapGet("/navigate/{key}", (string key, YelhighWebsite.Services.INavigationSe
 // Localization endpoint (returns translated texts)
 app.MapGet("/localization/{lang}", (string lang, YelhighWebsite.Services.ILocalizationService localizationService) =>
 {
-    var texts = localizationService.GetTexts(lang);
-    return Results.Json(texts);
+    return Results.Json(localizationService.GetTexts(lang));
 });
 
 // Bulk translate endpoint for arbitrary text nodes
