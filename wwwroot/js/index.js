@@ -14985,7 +14985,7 @@ const aE = () => {
                 children: [!n && C.jsxs("div", {
                     className: "max-w-2xl text-left animate-fade-in",
                     style: {
-                        marginRight: "25%",
+                        marginRight: "45%",
                         marginTop: "-10%"
                     },
                     children: [C.jsx(Fl, {
@@ -15098,7 +15098,7 @@ const aE = () => {
                 children: [!n && C.jsxs("div", {
                     className: "max-w-2xl text-right animate-fade-in",
                     style: {
-                        marginLeft: "25%",
+                        marginLeft: "45%",
                         marginBottom: "-10%"
                     },
                     children: [C.jsx(Dl, {
