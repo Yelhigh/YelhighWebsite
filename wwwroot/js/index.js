@@ -15193,7 +15193,7 @@ const aE = () => {
         }), !n && C.jsxs("div", {
             className: "absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-6 z-10 animate-fade-in",
             children: [C.jsx("a", {
-                href: "https://github.com",
+                href: "https://github.com/Yelhigh",
                 target: "_blank",
                 rel: "noopener noreferrer",
                 className: "p-3 rounded-full transition-all duration-300 hover:scale-110",
