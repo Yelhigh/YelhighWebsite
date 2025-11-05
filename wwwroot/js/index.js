@@ -15010,7 +15010,7 @@ const aE = () => {
                         style: {
                             color: "hsl(var(--music-text))"
                         },
-                        children: "Click to explore →"
+                        children: "← Listen to me!"
                     })]
                 }), n === "music" && C.jsxs("div", {
                     className: "max-w-4xl mx-auto text-center animate-fade-in",
@@ -15060,6 +15060,7 @@ const aE = () => {
                                 borderRadius: "var(--radius)"
                             },
                             onClick: window.handleListenToMyTracksClick,
+                            "data-l10n-key": "listen_tracks",
                             children: [C.jsx(Fl, {
                                 className: "h-5 w-5"
                             }), "Listen to My Tracks"]
@@ -15072,6 +15073,7 @@ const aE = () => {
                                 borderRadius: "var(--radius)"
                             },
                             onClick: window.handleGetInTouchClick,
+                            "data-l10n-key": "get_in_touch",
                             children: [C.jsx(Md, {
                                 className: "h-5 w-5"
                             }), "Get in Touch"]
@@ -15112,7 +15114,7 @@ const aE = () => {
                         style: {
                             color: "hsl(var(--code-text))"
                         },
-                        children: "← Click to explore"
+                        children: "← Check if it works for me :)"
                     })]
                 }), n === "code" && C.jsxs("div", {
                     className: "max-w-4xl mx-auto text-center animate-fade-in",
@@ -15162,6 +15164,7 @@ const aE = () => {
                                 borderRadius: "var(--radius)"
                             },
                             onClick: window.handleViewProjectsClick,
+                            "data-l10n-key": "view_projects",
                             children: [C.jsx(Dl, {
                                 className: "h-5 w-5"
                             }), "View Projects"]
@@ -15174,6 +15177,7 @@ const aE = () => {
                                 borderRadius: "var(--radius)"
                             },
                             onClick: window.handleContactMeClick,
+                            "data-l10n-key": "contact_me",
                             children: [C.jsx(Md, {
                                 className: "h-5 w-5"
                             }), "Contact Me"]
@@ -15284,4 +15288,162 @@ window.handleViewProjectsClick = window.handleViewProjectsClick || function (eve
 window.handleContactMeClick = window.handleContactMeClick || function (event) {
     try { event && event.preventDefault && event.preventDefault(); } catch (_) { }
     window.openNavigateTarget('email');
+};
+
+// Localization integration
+window._applyLocalizationTexts = window._applyLocalizationTexts || function (texts) {
+    try {
+        if (!texts) return;
+        const elements = document.querySelectorAll('[data-l10n-key]');
+        elements.forEach(el => {
+            const key = el.getAttribute('data-l10n-key');
+            const newText = texts[key];
+            if (!newText) return;
+            // Replace only the text node to preserve icons
+            const textNode = Array.from(el.childNodes).find(n => n.nodeType === Node.TEXT_NODE);
+            if (textNode) {
+                textNode.nodeValue = ` ${newText}`; // keep a leading space after icon
+            } else {
+                el.appendChild(document.createTextNode(` ${newText}`));
+            }
+        });
+    } catch (_) { }
+};
+
+window._loadAndApplyLocalization = window._loadAndApplyLocalization || async function (lang) {
+    try {
+        const response = await fetch(`/localization/${encodeURIComponent(lang || 'en')}`);
+        if (!response.ok) throw new Error('Localization endpoint failed');
+        const texts = await response.json();
+        window._applyLocalizationTexts(texts);
+        await window._translateArbitraryTextNodes(lang);
+    } catch (_) { }
+};
+
+// Re-apply localization on DOM mutations (React re-renders)
+window._ensureLocalizationObserver = window._ensureLocalizationObserver || function () {
+    if (window._l10nObserver) return;
+    if (!window._l10nCurrentLang) {
+        try { window._l10nCurrentLang = localStorage.getItem('lang') || 'en'; } catch (_) { window._l10nCurrentLang = 'en'; }
+    }
+    const observer = new MutationObserver(() => {
+        const langNow = window._l10nCurrentLang || 'en';
+        window._loadAndApplyLocalization(langNow);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+    window._l10nObserver = observer;
+};
+
+window._ensureLanguageSwitcher = window._ensureLanguageSwitcher || function () {
+    if (document.getElementById('language-switcher')) return;
+    const container = document.createElement('div');
+    container.id = 'language-switcher';
+    container.style.position = 'fixed';
+    container.style.right = '12px';
+    container.style.bottom = '12px';
+    container.style.zIndex = '9999';
+    container.style.display = 'flex';
+    container.style.gap = '6px';
+    container.style.background = 'rgba(0,0,0,0.5)';
+    container.style.padding = '6px 8px';
+    container.style.borderRadius = '8px';
+    const langs = ['en', 'de', 'pl', 'fr'];
+    langs.forEach(code => {
+        const btn = document.createElement('button');
+        btn.textContent = code.toUpperCase();
+        btn.style.cursor = 'pointer';
+        btn.style.fontSize = '12px';
+        btn.style.color = '#fff';
+        btn.style.background = 'transparent';
+        btn.style.border = '1px solid rgba(255,255,255,0.6)';
+        btn.style.borderRadius = '4px';
+        btn.style.padding = '2px 6px';
+        btn.addEventListener('click', () => {
+            try { localStorage.setItem('lang', code); } catch (_) { }
+            window._l10nCurrentLang = code;
+            window._loadAndApplyLocalization(code);
+        });
+        container.appendChild(btn);
+    });
+    document.body.appendChild(container);
+};
+
+window.addEventListener('DOMContentLoaded', () => {
+    window._ensureLanguageSwitcher();
+    window._ensureLocalizationObserver();
+    let lang = 'en';
+    try { lang = localStorage.getItem('lang') || 'en'; } catch (_) { }
+    window._l10nCurrentLang = lang;
+    window._loadAndApplyLocalization(lang);
+});
+
+// Collect, request and apply translations for plain text nodes across the page
+window._translateArbitraryTextNodes = window._translateArbitraryTextNodes || async function (lang) {
+    try {
+        const isSkippableElement = (el) => {
+            if (!el) return true;
+            const tag = el.nodeName;
+            if (["SCRIPT", "STYLE", "CODE", "PRE", "NOSCRIPT", "TEXTAREA", "INPUT", "SVG", "PATH"].includes(tag)) return true;
+            if (el.closest && (el.closest('#language-switcher') || el.closest('[data-l10n-ignore]') || el.closest('[data-l10n-key]'))) return true;
+            return false;
+        };
+
+        const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT, {
+            acceptNode: function (node) {
+                try {
+                    if (!node || !node.parentElement) return NodeFilter.FILTER_REJECT;
+                    if (isSkippableElement(node.parentElement)) return NodeFilter.FILTER_REJECT;
+                    const text = (node.nodeValue || '').trim();
+                    if (!text) return NodeFilter.FILTER_REJECT;
+                    if (text.length < 2) return NodeFilter.FILTER_REJECT;
+
+                    // Skip error messages to prevent recursion
+                    if (text.includes('error') || text.includes('Error')) {
+                        return NodeFilter.FILTER_REJECT;
+                    }
+
+                    return NodeFilter.FILTER_ACCEPT;
+                } catch (e) {
+                    console.error('Walker error:', e, node);
+                    return NodeFilter.FILTER_REJECT;
+                }
+            }
+        });
+
+        const nodes = [];
+        const unique = new Set();
+        let current;
+        while ((current = walker.nextNode())) {
+            nodes.push(current);
+            if (!window._l10nOriginals) window._l10nOriginals = new WeakMap();
+            const original = window._l10nOriginals.get(current) || current.nodeValue;
+            window._l10nOriginals.set(current, original);
+            unique.add(original);
+        }
+
+        if (unique.size === 0) return;
+
+        const payload = Array.from(unique);
+        const resp = await fetch(`/localization/translate/${encodeURIComponent(lang || 'en')}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        if (!resp.ok) return;
+        const dict = await resp.json();
+        if (!dict) return;
+
+        for (const node of nodes) {
+            const original = window._l10nOriginals && window._l10nOriginals.get(node) || node.nodeValue;
+            const translated = dict[original];
+            if (!translated) continue;
+            const currentValue = node.nodeValue.trim();
+            const translatedTrimmed = translated.trim();
+            // Apply translation if it's different from current node value (even if same as original)
+            if (currentValue === translatedTrimmed) continue;
+            const leading = original.match(/^\s*/)[0];
+            const trailing = original.match(/\s*$/)[0];
+            node.nodeValue = `${leading}${translated}${trailing}`;
+        }
+    } catch (_) { }
 };
