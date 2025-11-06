@@ -14987,32 +14987,42 @@ const aE = () => {
             children: C.jsxs("div", {
                 className: "flex h-full items-center justify-center p-8 md:p-16",
                 children: [!n && C.jsxs("div", {
-                    className: "max-w-2xl text-left animate-fade-in",
+                    className: "text-left animate-fade-in",
                     style: {
-                        marginRight: "45%",
-                        marginTop: "-10%"
+                        position: "absolute",
+                        left: "clamp(8px, 8vw, 120px)",
+                        top: "clamp(8px, 12vh, 180px)",
+                        maxWidth: "min(45vw, 600px)"
                     },
                     children: [C.jsx(Fl, {
-                        className: "mb-6 h-16 w-16 md:h-20 md:w-20 animate-pulse",
+                        className: "mb-6 animate-pulse",
                         style: {
-                            color: "hsl(var(--music-text))"
+                            color: "hsl(var(--music-text))",
+                            width: "clamp(48px, 5vw, 80px)",
+                            height: "clamp(48px, 5vw, 80px)"
                         }
                     }), C.jsx("h1", {
-                        className: "mb-4 text-4xl md:text-6xl lg:text-7xl font-black tracking-tight",
+                        className: "mb-4 font-black tracking-tight",
                         style: {
-                            color: "hsl(var(--music-text))"
+                            color: "hsl(var(--music-text))",
+                            fontSize: "clamp(2rem, 6vw, 7rem)",
+                            lineHeight: "1.1"
                         },
                         children: "YELHIGH!"
                     }), C.jsx("p", {
-                        className: "text-lg md:text-xl font-bold",
+                        className: "font-bold",
                         style: {
-                            color: "hsl(var(--music-text))"
+                            color: "hsl(var(--music-text))",
+                            fontSize: "clamp(1rem, 2vw, 1.5rem)",
+                            lineHeight: "1.4"
                         },
                         children: "Music Producer"
                     }), C.jsx("p", {
-                        className: "mt-4 text-sm md:text-base opacity-80",
+                        className: "mt-4 opacity-80",
                         style: {
-                            color: "hsl(var(--music-text))"
+                            color: "hsl(var(--music-text))",
+                            fontSize: "clamp(0.75rem, 1.2vw, 1rem)",
+                            lineHeight: "1.4"
                         },
                         "data-l10n-key": "ListenToMe",
                         children: "← Listen to me!"
@@ -15100,26 +15110,34 @@ const aE = () => {
             children: C.jsxs("div", {
                 className: "flex h-full items-center justify-center p-8 md:p-16",
                 children: [!n && C.jsxs("div", {
-                    className: "max-w-2xl text-right animate-fade-in",
+                    className: "text-right animate-fade-in",
                     style: {
-                        marginLeft: "45%",
-                        marginBottom: "-10%"
+                        position: "absolute",
+                        right: "clamp(8px, 8vw, 120px)",
+                        bottom: "clamp(8px, 12vh, 180px)",
+                        maxWidth: "min(45vw, 600px)"
                     },
                     children: [C.jsx(Dl, {
-                        className: "mb-6 ml-auto h-16 w-16 md:h-20 md:w-20 animate-pulse",
+                        className: "mb-6 ml-auto animate-pulse",
                         style: {
-                            color: "hsl(var(--code-text))"
+                            color: "hsl(var(--code-text))",
+                            width: "clamp(48px, 5vw, 80px)",
+                            height: "clamp(48px, 5vw, 80px)"
                         }
                     }), C.jsxs("h1", {
-                        className: "mb-4 text-4xl md:text-6xl lg:text-7xl font-black tracking-tight",
+                        className: "mb-4 font-black tracking-tight",
                         style: {
-                            color: "hsl(var(--code-text))"
+                            color: "hsl(var(--code-text))",
+                            fontSize: "clamp(2rem, 6vw, 7rem)",
+                            lineHeight: "1.1"
                         },
                         children: ["C# .NET", C.jsx("br", {}), "DEVELOPER"]
                     }), C.jsx("p", {
-                        className: "mt-4 text-sm md:text-base opacity-80",
+                        className: "mt-4 opacity-80",
                         style: {
-                            color: "hsl(var(--code-text))"
+                            color: "hsl(var(--code-text))",
+                            fontSize: "clamp(0.75rem, 1.2vw, 1rem)",
+                            lineHeight: "1.4"
                         },
                         "data-l10n-key": "CheckIfItWorks",
                         children: "← Check if it works for me :)"
